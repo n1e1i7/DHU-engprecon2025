@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ENG Presentation Contest 2025|Admin</title>
+    <style>
+        body {
+            background: #111;
+            color: #fff;
+            font-family: Arial, Helvetica, sans-serif;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .panel {
+            background: #222;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 16px;
+        }
+
+        .meta {
+            color: #ccc;
+            margin-bottom: 8px;
+        }
+
+        .comment {
+            background: #2b2b2b;
+            padding: 8px;
+            border-radius: 6px;
+            margin-top: 6px;
+        }
+
+        .reply {
+            margin-left: 10px;
+            color: #9ee;
+        }
+
+        .reply-box {
+            margin-top: 6px;
+            display: flex;
+            gap: 6px;
+        }
+
+        .reply-box input {
+            flex: 1;
+            padding: 6px;
+            border: none;
+            border-radius: 6px;
+            background: #111;
+            color: #fff;
+        }
+
+        .reply-box button {
+            background: #444;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 6px 10px;
+            cursor: pointer;
+        }
+
+        .delete-btn {
+            background: #933;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 4px 8px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .name-input {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .name-input input {
+            padding: 6px;
+            border-radius: 6px;
+            border: none;
+            width: 200px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>ENG Presentation Contest | Admin</h1>
+    <div class="name-input">
+        <input type="text" id="adminName" placeholder="管理者名を入力">
+        <button id="saveName">OK</button>
+    </div>
+    <div id="container"></div>
+
+    <script type="module">
+        // Firebase import
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
+        import { getDatabase, ref, onValue, update, remove } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-database.js";
+
+        // Firebase設定
+        const firebaseConfig = {
+            apiKey: "AIzaSyAZ1kw3esxRwvrsBu6hMuiuo0aiouH_RSQ",
+            authDomain: "eng-presentation-contest-2025.firebaseapp.com",
+            databaseURL: "https://eng-presentation-contest-2025-default-rtdb.firebaseio.com",
+            projectId: "eng-presentation-contest-2025",
+            storageBucket: "eng-presentation-contest-2025.firebasestorage.app",
+            messagingSenderId: "599515524673",
+            appId: "1:599515524673:web:cb4e7fa6856909697ce0c0",
+            measurementId: "G-RM0JZKYHYK"
+        };
+
+        // Firebase初期化
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        const container = document.getElementById('container');
+        let adminName = localStorage.getItem('adminName') || '';
+
+        // 管理者名設定
+        const adminInput = document.getElementById('adminName');
+        const saveBtn = document.getElementById('saveName');
+        adminInput.value = adminName;
+
+        saveBtn.addEventListener('click', () => {
+            const name = adminInput.value.trim();
+            if (!name) return alert('Insert your name');
+            adminName = name;
+            localStorage.setItem('adminName', name);
+            alert(`Saved your name as「${name}」`);
+        });
+
+        // 全パネルを監視
+        const panelsRef = ref(db, 'panels');
+        onValue(panelsRef, snapshot => {
+            container.innerHTML = '';
+            if (!snapshot.exists()) {
+                container.innerHTML = '<p style="text-align:center;color:#888">No data available</p>';
+                return;
+            }
+
+            snapshot.forEach(panelSnap => {
+                const panelId = panelSnap.key;
+                const panelData = panelSnap.val();
+                const comments = panelData.comments || {};
+                const liked = panelData.liked ? 'ON' : 'OFF';
+
+                const panelDiv = document.createElement('div');
+                panelDiv.className = 'panel';
+                panelDiv.innerHTML = `<h2>${panelId}</h2><div class="meta">Like: ${liked} / Comments: ${Object.keys(comments).length}</div>`;
+
+                Object.keys(comments).forEach(cid => {
+                    const c = comments[cid];
+                    const cDiv = document.createElement('div');
+                    cDiv.className = 'comment';
+                    cDiv.innerHTML = `<div>${c.text}</div>`;
+                    if (c.reply) {
+                        const r = document.createElement('div');
+                        r.className = 'reply';
+                        r.textContent = `↳ ${c.reply}`;
+                        cDiv.appendChild(r);
+                    }
+
+                    // 返信フォーム
+                    const box = document.createElement('div');
+                    box.className = 'reply-box';
+                    const inp = document.createElement('input');
+                    inp.placeholder = 'insert your reply';
+                    const btn = document.createElement('button');
+                    btn.textContent = 'SEND';
+                    btn.addEventListener('click', () => {
+                        const txt = inp.value.trim();
+                        if (!txt) return;
+                        if (!adminName) return alert('Insert your name');
+                        update(ref(db, `panels/${panelId}/comments/${cid}`), {
+                            reply: `${adminName}: ${txt}`
+                        });
+                        inp.value = '';
+                    });
+
+                    // 削除ボタン
+                    const del = document.createElement('button');
+                    del.className = 'delete-btn';
+                    del.textContent = 'DELETE';
+                    del.addEventListener('click', () => {
+                        if (confirm('Are you sure to delete this comment?')) {
+                            remove(ref(db, `panels/${panelId}/comments/${cid}`));
+                        }
+                    });
+
+
+                    box.appendChild(inp);
+                    box.appendChild(btn);
+                    box.appendChild(del);
+                    cDiv.appendChild(box);
+                    panelDiv.appendChild(cDiv);
+                });
+
+                container.appendChild(panelDiv);
+            });
+        });
+    </script>
+</body>
+
+</html>

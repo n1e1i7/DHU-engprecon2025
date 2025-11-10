@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>ENG Presentation Contest 2025 | Top</title>
+    <style>
+        :root {
+            --bg: #000;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--bg);
+            color: #fff;
+        }
+
+        section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .scene1,
+        .scene3 {
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .scene1 h1 {
+            margin-bottom: 16px;
+            font-size: 5rem;
+        }
+
+        .scene1 h2 {
+            font-size: 2rem;
+        }
+
+        .scene1 h3 {
+            font-size: 1.6rem;
+        }
+
+        .scene2 {
+            height: 100vh;
+            overflow-x: auto;
+            overflow-y: hidden;
+            white-space: nowrap;
+            scroll-snap-type: x mandatory;
+        }
+
+        .scene2::-webkit-scrollbar {
+            display: none;
+        }
+
+        .horizontal-wrapper {
+            display: flex;
+            height: 100%;
+        }
+
+        .panel {
+            flex: 0 0 100vw;
+            height: 100vh;
+            scroll-snap-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 0 20px;
+            flex-direction: column;
+        }
+
+        .panel-content {
+            display: flex;
+            gap: 24px;
+            width: 85%;
+            height: 80%;
+            align-items: flex-start;
+            justify-content: center;
+        }
+
+        .small-area {
+            width: 28%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .small-image {
+            width: 100%;
+            height: 0;
+            padding-bottom: 66%;
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .small-image img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .text-info {
+            font-weight: 700;
+            font-size: 1.15rem;
+            color: #ddd;
+        }
+
+        .comment-display {
+            width: 100%;
+            max-height: 160px;
+            overflow: auto;
+            background: rgba(30, 30, 30, 0.85);
+            padding: 8px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+
+        .comment-item {
+            padding: 6px 4px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            text-align: left;
+        }
+
+        .reply-item {
+            margin-left: 12px;
+            color: #9ee;
+        }
+
+        .comment-input {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+            width: 100%;
+        }
+
+        .comment-input input {
+            flex: 1;
+            padding: 8px;
+            border-radius: 6px;
+            border: none;
+            background: #111;
+            color: #fff;
+        }
+
+        .comment-input button {
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: none;
+            background: #444;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .large-image {
+            width: 68%;
+            height: 100%;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .large-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .like-section {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+
+        .like-button {
+            background: #ff3355;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .like-button:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+
+<body>
+
+    <section class="scene1">
+        <h1>ENG Presentation Contest 2025</h1>
+        <h2>Date: Jan.29.2026 19:00~21:00 Venue: Surugadai Hall</h2>
+        <h3><a href="https://docs.google.com/forms/d/e/1FAIpQLSf9835jzlFG0JI8BUHxFeJihg9EqLaAMX4fkbWJ7buo4qI3oA/viewform?usp=header"
+                target="_blank">TO APPLY</a></h3>
+    </section>
+
+    <section class="scene2">
+        <div class="horizontal-wrapper">
+            <!-- Panel 1 -->
+            <div class="panel" data-id="teamA">
+                <div class="panel-content">
+                    <div class="small-area">
+                        <div class="small-image"><img src="image/teampic.png" alt="team pic example"></div>
+                        <div class="text-info">Team A — Title 1</div>
+                        <div class="comment-display" aria-live="polite"></div>
+                        <div class="comment-input">
+                            <input class="comment-text" type="text" placeholder="Send a comment">
+                            <button class="send-comment">SEND</button>
+                        </div>
+                    </div>
+                    <div class="large-image"><img src="image/thumbnail.png" alt="thumbnail example"></div>
+                </div>
+                <div class="like-section">
+                    <button class="like-button">❤️ LIKE</button>
+                    <span class="like-count">0</span>件
+                </div>
+            </div>
+
+            <!-- Panel 2 -->
+            <div class="panel" data-id="teamB">
+                <div class="panel-content">
+                    <div class="small-area">
+                        <div class="small-image"><img src="image/teampic.png" alt="team pic example"></div>
+                        <div class="text-info">Team B — Title 2</div>
+                        <div class="comment-display" aria-live="polite"></div>
+                        <div class="comment-input">
+                            <input class="comment-text" type="text" placeholder="Send a comment">
+                            <button class="send-comment">SEND</button>
+                        </div>
+                    </div>
+                    <div class="large-image"><img src="image/thumbnail.png" alt="thumbnail example"></div>
+                </div>
+                <div class="like-section">
+                    <button class="like-button">❤️ LIKE</button>
+                    <span class="like-count">0</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="scene3">
+        <video src="video/0805.mov" style="width: 1280px;"></video>
+    </section>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
+        import { getDatabase, ref, onValue, runTransaction } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAZ1kw3esxRwvrsBu6hMuiuo0aiouH_RSQ",
+            authDomain: "eng-presentation-contest-2025.firebaseapp.com",
+            databaseURL: "https://eng-presentation-contest-2025-default-rtdb.firebaseio.com",
+            projectId: "eng-presentation-contest-2025",
+            storageBucket: "eng-presentation-contest-2025.firebasestorage.app",
+            messagingSenderId: "599515524673",
+            appId: "1:599515524673:web:cb4e7fa6856909697ce0c0"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // ✅ 全ての「いいね」ボタンに機能を付与
+        document.querySelectorAll(".panel").forEach(panel => {
+            const postId = panel.dataset.id; // ← teamA, teamBなど
+            const likeBtn = panel.querySelector(".like-button");
+            const likeCount = panel.querySelector(".like-count");
+            const likeRef = ref(db, "likes/" + postId);
+
+            // ✅ リアルタイム更新
+            onValue(likeRef, (snapshot) => {
+                const data = snapshot.val();
+                likeCount.textContent = data ? data.count : 0;
+            });
+
+            // ✅ クリック時の処理
+            likeBtn.addEventListener("click", () => {
+                runTransaction(likeRef, (currentData) => {
+                    if (currentData === null) {
+                        return { count: 1 };
+                    } else {
+                        currentData.count++;
+                        return currentData;
+                    }
+                });
+            });
+        });
+    </script>
+
+    <footer style="display: flex; align-items: center;">
+        <img src="image/logo.png" alt="digital holly wood university logo" style="width: 180px;">
+        <p> &#12306;101-0062 <br>
+            Tokyo, Chiyoda-ku, Kanda Surugadai 4-6, Ochanomizu Sola City Academia 3F/4F <br>
+            TEL：0120-823-422 <br>
+            MAIL：dhu@dhw.ac.jp <br>
+            <br>
+            <small><span style="opacity: 0.8;">&copy;2025 Nei.</span></small>
+        </p>
+    </footer>
+
+</body>
+
+</html>
